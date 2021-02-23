@@ -1,0 +1,16 @@
+{
+  "name": "svg-chessboard",
+  "version": "1.0.0",
+  "description": "Minimal SVG Chessboard Renderer Library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chess",
+    "chessboard",
+    "svg"
+  ],
+  "author": "Davide Aversa",
+  "license": "ISC"
+}

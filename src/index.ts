@@ -3,6 +3,9 @@ import { SVGChessboard } from "./SVGChessboard";
 const example = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 const example2 = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1";
 
+/**
+ * Example consumer function.
+ */
 function drawChessboard(): SVGElement {
   const xmlns = "http://www.w3.org/2000/svg";
   var boxWidth = 500;
@@ -13,12 +16,12 @@ function drawChessboard(): SVGElement {
   block.setAttributeNS(null, "height", String(boxHeight));
 
   const svgChessboard = SVGChessboard.fromFEN(example);
-  var g = svgChessboard.draw();
+  var board = svgChessboard.draw();
 
-  block.appendChild(g);
+  block.appendChild(board);
   block.style.display = "block";
 
-  var svgContainer = document.getElementById("svgContainer");
+  const svgContainer = document.getElementById("svgContainer");
   if (svgContainer !== null) {
     svgContainer.appendChild(block);
   }

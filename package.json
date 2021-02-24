@@ -1,8 +1,8 @@
 {
-  "name": "svg-chessboard",
+  "name": "chessboard-svg",
   "version": "1.0.0",
   "description": "Minimal SVG Chessboard Renderer Library",
-  "main": "index.js",
+  "main": "svgchessboard.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -42,6 +42,11 @@ export class Chessboard {
     this.set(c, r, value);
   }
 
+  getAlgebraic(algebraic: string): ChessPiece {
+    const [c, r] = this.algebraicToCoord(algebraic);
+    return this.get(c, r);
+  }
+
   algebraicToCoord(algebraic: string): BoardCoordinate {
     if (this.BOARD_SIZE !== 8) {
       throw Error(

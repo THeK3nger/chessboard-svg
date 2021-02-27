@@ -35,7 +35,7 @@ export class SVGChessboard {
     return g;
   }
 
-  drawBoard(): SVGElement {
+  private drawBoard(): SVGElement {
     console.log("Creating Board");
     let g = document.createElementNS(this.xmlns, "g");
     for (let i = 0; i < 8; i++) {
@@ -46,7 +46,7 @@ export class SVGChessboard {
     return g;
   }
 
-  drawPieces(): SVGElement {
+  private drawPieces(): SVGElement {
     let g = document.createElementNS(this.xmlns, "g");
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
@@ -92,7 +92,7 @@ export class SVGChessboard {
     return g;
   }
 
-  drawPiece(coord: BoardCoordinate, piece: string): SVGElement {
+  private drawPiece(coord: BoardCoordinate, piece: string): SVGElement {
     let corner = this.getBoardSVGCord(coord);
     const DELTA = 3;
     let g = document.createElementNS(this.xmlns, "g");
@@ -105,7 +105,7 @@ export class SVGChessboard {
     return g;
   }
 
-  drawRect(coord: BoardCoordinate): SVGRectElement {
+  private drawRect(coord: BoardCoordinate): SVGRectElement {
     let corner = this.getBoardSVGCord(coord);
     let rect = document.createElementNS(this.xmlns, "rect");
     rect.setAttributeNS(null, "x", String(corner[1]));

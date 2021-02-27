@@ -1,4 +1,18 @@
 import { BoardCoordinate, Chessboard } from "./Chessboard";
+import {
+  WHITE_KING,
+  WHITE_QUEEN,
+  WHITE_KNIGHT,
+  WHITE_ROOK,
+  WHITE_BISHOP,
+  WHITE_PAWN,
+  BLACK_KING,
+  BLACK_QUEEN,
+  BLACK_KNIGHT,
+  BLACK_ROOK,
+  BLACK_BISHOP,
+  BLACK_PAWN,
+} from "./Pieces";
 
 export class SVGChessboard {
   chessboard: Chessboard;

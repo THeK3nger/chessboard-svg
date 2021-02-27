@@ -62,6 +62,14 @@ drawChessboard();
 
 ![](example.png)
 
+### Annotations
+
+It is possible to color specific squares using, for instance,
+
+```ts
+svgChessboard.highlight("c5", "red");
+```
+
 ## Development
 
 This library is still a work in progress (mostly to support my Obsidian chess viewer plugin). Any contribution is welcome.

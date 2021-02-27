@@ -20,6 +20,9 @@ export class SVGChessboard {
   private readonly xmlns = "http://www.w3.org/2000/svg";
   private readonly whiteColor = "white";
   private readonly blackColor = "gray";
+  private readonly defaultHighlightColor = "green";
+
+  private highlights: Array<[BoardCoordinate, string]> = [];
 
   private constructor(
     chessboard: Chessboard,
@@ -35,12 +38,38 @@ export class SVGChessboard {
     return g;
   }
 
+  highlight(cell: string, color = this.defaultHighlightColor) {
+    const [c, r] = this.chessboard.algebraicToCoord(cell);
+    this.highlightCoord(c, r, color);
+  }
+
+  highlightCoord(c: number, r: number, color = this.defaultHighlightColor) {
+    this.highlights.push([[c, r], color]);
+  }
+
+  removeHighlight(cell: string) {
+    this.removeHighlightCoord(...this.chessboard.algebraicToCoord(cell));
+  }
+
+  removeHighlightCoord(c: number, r: number) {
+    this.highlights = this.highlights.filter(([coord, _]) => {
+      coord !== [c, r];
+    });
+  }
+
+  private getHighlightedColor(c: number, r: number): string | undefined {
+    const highlightItem = this.highlights.find((hi) => {
+      const [x, y] = hi[0];
+      return x === c && y === r;
+    });
+    return highlightItem?.[1];
+  }
+
   private drawBoard(): SVGElement {
-    console.log("Creating Board");
     let g = document.createElementNS(this.xmlns, "g");
-    for (let i = 0; i < 8; i++) {
-      for (let j = 0; j < 8; j++) {
-        g.appendChild(this.drawRect([i, j]));
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        g.appendChild(this.drawSquare([c, r]));
       }
     }
     return g;
@@ -48,44 +77,44 @@ export class SVGChessboard {
 
   private drawPieces(): SVGElement {
     let g = document.createElementNS(this.xmlns, "g");
-    for (let i = 0; i < 8; i++) {
-      for (let j = 0; j < 8; j++) {
-        const piece = this.chessboard.get(i, j);
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const piece = this.chessboard.get(c, r);
         if (piece === "K") {
-          g.appendChild(this.drawPiece([j, i], WHITE_KING));
+          g.appendChild(this.drawPiece([c, r], WHITE_KING));
         }
         if (piece === "Q") {
-          g.appendChild(this.drawPiece([j, i], WHITE_QUEEN));
+          g.appendChild(this.drawPiece([c, r], WHITE_QUEEN));
         }
         if (piece === "N") {
-          g.appendChild(this.drawPiece([j, i], WHITE_KNIGHT));
+          g.appendChild(this.drawPiece([c, r], WHITE_KNIGHT));
         }
         if (piece === "R") {
-          g.appendChild(this.drawPiece([j, i], WHITE_ROOK));
+          g.appendChild(this.drawPiece([c, r], WHITE_ROOK));
         }
         if (piece === "B") {
-          g.appendChild(this.drawPiece([j, i], WHITE_BISHOP));
+          g.appendChild(this.drawPiece([c, r], WHITE_BISHOP));
         }
         if (piece === "P") {
-          g.appendChild(this.drawPiece([j, i], WHITE_PAWN));
+          g.appendChild(this.drawPiece([c, r], WHITE_PAWN));
         }
         if (piece === "k") {
-          g.appendChild(this.drawPiece([j, i], BLACK_KING));
+          g.appendChild(this.drawPiece([c, r], BLACK_KING));
         }
         if (piece === "q") {
-          g.appendChild(this.drawPiece([j, i], BLACK_QUEEN));
+          g.appendChild(this.drawPiece([c, r], BLACK_QUEEN));
         }
         if (piece === "n") {
-          g.appendChild(this.drawPiece([j, i], BLACK_KNIGHT));
+          g.appendChild(this.drawPiece([c, r], BLACK_KNIGHT));
         }
         if (piece === "r") {
-          g.appendChild(this.drawPiece([j, i], BLACK_ROOK));
+          g.appendChild(this.drawPiece([c, r], BLACK_ROOK));
         }
         if (piece === "b") {
-          g.appendChild(this.drawPiece([j, i], BLACK_BISHOP));
+          g.appendChild(this.drawPiece([c, r], BLACK_BISHOP));
         }
         if (piece === "p") {
-          g.appendChild(this.drawPiece([j, i], BLACK_PAWN));
+          g.appendChild(this.drawPiece([c, r], BLACK_PAWN));
         }
       }
     }
@@ -93,35 +122,36 @@ export class SVGChessboard {
   }
 
   private drawPiece(coord: BoardCoordinate, piece: string): SVGElement {
-    let corner = this.getBoardSVGCord(coord);
+    let [x, y] = this.getBoardSVGCord(coord);
     const DELTA = 3;
     let g = document.createElementNS(this.xmlns, "g");
-    g.setAttributeNS(
-      null,
-      "transform",
-      `translate(${corner[1] - DELTA},${corner[0] - DELTA})`
-    );
+    g.setAttributeNS(null, "transform", `translate(${x - DELTA},${y - DELTA})`);
     g.innerHTML = piece;
     return g;
   }
 
-  private drawRect(coord: BoardCoordinate): SVGRectElement {
-    let corner = this.getBoardSVGCord(coord);
+  private drawSquare(coord: BoardCoordinate): SVGRectElement {
+    let [x, y] = this.getBoardSVGCord(coord);
     let rect = document.createElementNS(this.xmlns, "rect");
-    rect.setAttributeNS(null, "x", String(corner[1]));
-    rect.setAttributeNS(null, "y", String(corner[0]));
+    rect.setAttributeNS(null, "x", String(x));
+    rect.setAttributeNS(null, "y", String(y));
     rect.setAttributeNS(null, "width", String(this.squareSize));
     rect.setAttributeNS(null, "height", String(this.squareSize));
-    rect.setAttributeNS(
-      null,
-      "fill",
-      (coord[1] + coord[0]) % 2 === 0 ? this.whiteColor : this.blackColor
-    );
+    const highlightColor = this.getHighlightedColor(...coord);
+    if (highlightColor) {
+      rect.setAttributeNS(null, "fill", highlightColor);
+    } else {
+      rect.setAttributeNS(
+        null,
+        "fill",
+        (coord[1] + coord[0]) % 2 === 0 ? this.whiteColor : this.blackColor
+      );
+    }
     return rect;
   }
 
-  private getBoardSVGCord(coord: BoardCoordinate): [number, number] {
-    return [coord[0] * this.squareSize, coord[1] * this.squareSize];
+  private getBoardSVGCord([c, r]: BoardCoordinate): [number, number] {
+    return [c * this.squareSize, r * this.squareSize];
   }
 
   static fromFEN(fenString: string, squareSize: number = 40) {

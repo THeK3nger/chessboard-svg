@@ -31,6 +31,8 @@ export interface ArrowAnnotation {
 export class SVGChessboard {
   private chessboard: Chessboard;
   private squareSize: number;
+  // Half value od the squareSize. To avoid doing a lot of /2.
+  private squareSizeHalf: number;
 
   private options: SVGChessboardOptions;
 
@@ -49,6 +51,7 @@ export class SVGChessboard {
   ) {
     this.chessboard = chessboard;
     this.squareSize = this.baseSquareSize;
+    this.squareSizeHalf = this.squareSize / 2;
     this.options = { drawCoordinates };
   }
 
@@ -105,10 +108,10 @@ export class SVGChessboard {
         );
         g.appendChild(
           Arrow.drawArrow(
-            x0 + this.squareSize / 2,
-            y0 + this.squareSize / 2,
-            x1 + this.squareSize / 2,
-            y1 + this.squareSize / 2,
+            x0 + this.squareSizeHalf,
+            y0 + this.squareSizeHalf,
+            x1 + this.squareSizeHalf,
+            y1 + this.squareSizeHalf,
             annotation.color
           )
         );

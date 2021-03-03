@@ -12,6 +12,9 @@ export class Arrow {
     const headWidth = 20;
     const arrowWidth = 10;
     const length = Math.sqrt(Math.pow(x1 - x0, 2) + Math.pow(y1 - y0, 2));
+
+    // The idea here is create an horizontal right-pointing arrow and then rotate it
+    // so that it points to (x1,y2).
     const ax = x0;
     const ay = y0 - width2;
     const bx = x0 + length - headWidth;

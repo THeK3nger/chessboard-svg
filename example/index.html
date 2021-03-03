@@ -20,12 +20,13 @@
                     var boxHeight = 500;
                     var block = document.createElementNS(xmlns, "svg");
                     block.setAttributeNS(null, "viewBox", "0 0 " + boxWidth + " " + boxHeight);
-                    block.setAttributeNS(null, "width", String(boxWidth));
-                    block.setAttributeNS(null, "height", String(boxHeight));
+                    block.setAttributeNS(null, "width", String(2*boxWidth));
+                    block.setAttributeNS(null, "height", String(2*boxHeight));
 
                     const svgChessboard = chessboardsvg.SVGChessboard.fromFEN(example);
                     svgChessboard.highlight("b4");
                     svgChessboard.highlight("c5", "red");
+                    svgChessboard.addArrow("b4", "g5", "blue");
                     var board = svgChessboard.draw();
                     block.appendChild(board);
                     block.style.display = "block";

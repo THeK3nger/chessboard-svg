@@ -23,7 +23,7 @@
                     block.setAttributeNS(null, "width", String(boxWidth));
                     block.setAttributeNS(null, "height", String(boxHeight));
 
-                    const svgChessboard = chessboardsvg.SVGChessboard.fromFEN(example);
+                    const svgChessboard = chessboardsvg.SVGChessboard.fromFEN(example, {scale: 1});
                     svgChessboard.highlight("b4");
                     svgChessboard.highlight("c5", "red");
                     var board = svgChessboard.draw();

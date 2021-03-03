@@ -6,7 +6,8 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "jest",
-    "build-example": "tsc --module \"AMD\" --outFile ./example/chessboard-svg.js"
+    "build-example": "tsc --module \"AMD\" --outFile ./example/chessboard-svg.js",
+    "dev": "tsc --watch --module \"AMD\" --outFile ./example/chessboard-svg.js"
   },
   "keywords": [
     "chess",

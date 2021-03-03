@@ -26,7 +26,8 @@
                     const svgChessboard = chessboardsvg.SVGChessboard.fromFEN(example);
                     svgChessboard.highlight("b4");
                     svgChessboard.highlight("c5", "red");
-                    svgChessboard.addArrow("b4", "g5", "blue");
+                    svgChessboard.addArrow("b4", "g5");
+                    svgChessboard.addArrow("f2", "f4");
                     var board = svgChessboard.draw();
                     block.appendChild(board);
                     block.style.display = "block";

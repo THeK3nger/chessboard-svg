@@ -39,8 +39,9 @@ export class SVGChessboard {
   private readonly xmlns = "http://www.w3.org/2000/svg";
   private readonly whiteColor = "white";
   private readonly blackColor = "gray";
-  private readonly defaultHighlightColor = "green";
+  private readonly defaultHighlightColor = "#b0ffb0";
   private readonly baseSquareSize = 40;
+  private readonly defaultArrowColor = "#ff6060";
 
   private highlights: Array<[BoardCoordinate, string]> = [];
   private annotations: Annotation[] = [];
@@ -61,8 +62,8 @@ export class SVGChessboard {
     if (this.options.drawCoordinates) {
       g.appendChild(this.drawCoordinateSystem());
     }
-    g.appendChild(this.drawPieces());
     g.appendChild(this.drawAnnotations());
+    g.appendChild(this.drawPieces());
     return g;
   }
 
@@ -71,7 +72,7 @@ export class SVGChessboard {
     this.highlightCoord(c, r, color);
   }
 
-  addArrow(startCell: string, endCell: string, color: string) {
+  addArrow(startCell: string, endCell: string, color = this.defaultArrowColor) {
     this.annotations.push({
       type: "arrow",
       start: startCell,

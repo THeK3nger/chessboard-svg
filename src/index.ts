@@ -36,7 +36,7 @@ export class SVGChessboard {
 
   private constructor(
     chessboard: Chessboard,
-    { drawCoordinates = true, scale = 1 }: Partial<SVGChessboardOptions>
+    { drawCoordinates = true, scale = 1 }: Partial<SVGChessboardOptions> = {}
   ) {
     this.chessboard = chessboard;
     this.scale = scale;
@@ -230,7 +230,7 @@ export class SVGChessboard {
     return [c * this.squareSize, r * this.squareSize];
   }
 
-  static fromFEN(fenString: string, options: Partial<SVGChessboardOptions>) {
+  static fromFEN(fenString: string, options?: Partial<SVGChessboardOptions>) {
     return new SVGChessboard(Chessboard.fromFEN(fenString), options);
   }
 }

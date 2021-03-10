@@ -43,8 +43,8 @@ export class SVGChessboard {
   private readonly xmlns = "http://www.w3.org/2000/svg";
   private readonly baseSquareSize = 40;
 
-  private whiteColor = "white";
-  private blackColor = "gray";
+  private whiteColor = "#f0d9b5";
+  private blackColor = "#b58862";
   private defaultHighlightColor = "#b0ffb0";
   private defaultArrowColor = "#ff6060";
 
@@ -55,8 +55,8 @@ export class SVGChessboard {
     chessboard: Chessboard,
     {
       drawCoordinates = true,
-      whiteSquareColor = "white",
-      blackSquareColor = "gray",
+      whiteSquareColor = "#f0d9b5",
+      blackSquareColor = "#b58862",
       defaultHighlightColor = "#b0ffb0",
       defaultArrowColor = "#ff6060",
     }: Partial<SVGChessboardOptions> = {}
@@ -287,7 +287,10 @@ export class SVGChessboard {
     return [c * this.squareSize, r * this.squareSize];
   }
 
-  static fromFEN(fenString: string, options?: Partial<SVGChessboardOptions>) {
+  static fromFEN(
+    fenString: string,
+    options: Partial<SVGChessboardOptions> = {}
+  ) {
     return new SVGChessboard(Chessboard.fromFEN(fenString), options);
   }
 }

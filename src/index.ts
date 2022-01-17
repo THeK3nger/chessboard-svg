@@ -16,6 +16,7 @@ import {
 } from "./Pieces";
 
 export interface SVGChessboardOptions {
+  orientation: "white" | "black";
   drawCoordinates: boolean;
   blackSquareColor: string;
   whiteSquareColor: string;
@@ -55,6 +56,7 @@ export class SVGChessboard {
     chessboard: Chessboard,
     {
       drawCoordinates = true,
+      orientation = "white",
       whiteSquareColor = "#f0d9b5",
       blackSquareColor = "#b58862",
       defaultHighlightColor = "#b0ffb0",
@@ -70,6 +72,7 @@ export class SVGChessboard {
     this.defaultArrowColor = defaultArrowColor;
 
     this.options = {
+      orientation,
       drawCoordinates,
       whiteSquareColor,
       blackSquareColor,
@@ -115,6 +118,10 @@ export class SVGChessboard {
     this.highlights = this.highlights.filter(([coord, _]) => {
       coord !== [c, r];
     });
+  }
+
+  setOrientation(orientation: "white" | "black") {
+    this.options.orientation = orientation;
   }
 
   private drawAnnotations(): SVGElement {
@@ -241,10 +248,16 @@ export class SVGChessboard {
     let g = document.createElementNS(this.xmlns, "g");
     for (let r = 0; r < 8; r++) {
       for (let c = 0; c < 8; c++) {
-        if (c === 0) {
+        if (
+          (c === 0 && this.options.orientation === "white") ||
+          (c === 7 && this.options.orientation === "black")
+        ) {
           g.appendChild(this.drawText([c, r], String(8 - r), "row"));
         }
-        if (r === 7) {
+        if (
+          (r === 7 && this.options.orientation === "white") ||
+          (r === 0 && this.options.orientation === "black")
+        ) {
           g.appendChild(
             this.drawText([c, r], String(this.numToLetter(c)), "column")
           );
@@ -284,7 +297,10 @@ export class SVGChessboard {
   }
 
   private getBoardSVGCord([c, r]: BoardCoordinate): [number, number] {
-    return [c * this.squareSize, r * this.squareSize];
+    if (this.options.orientation == "white") {
+      return [c * this.squareSize, r * this.squareSize];
+    }
+    return [(7 - c) * this.squareSize, (7 - r) * this.squareSize];
   }
 
   static fromFEN(

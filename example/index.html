@@ -24,6 +24,7 @@
                     block.setAttributeNS(null, "height", String(2*boxHeight));
 
                     const svgChessboard = chessboardsvg.SVGChessboard.fromFEN(example);
+                    svgChessboard.setOrientation("white");
                     svgChessboard.highlight("b4");
                     svgChessboard.highlight("b5");
                     svgChessboard.highlight("c5", "red");
